@@ -177,29 +177,34 @@ function buildPreview(){
     const t=[...r.querySelectorAll("input")].map(i=>i.value);
     return `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td></tr>`;
   }).join("");
+  
+  // Style for preview to match form
   return `
-  <div>
-    <div style="background:#0d4f8b;color:#fff;padding:10px;text-align:center;border-radius:6px;">
-      <h1>Jagannath Gupta Institute of Medical Science and Hospital</h1>
-      <h2>Biomedical Equipment Installation/Upgrade/Handover Service</h2>
+  <div style="font-family:Arial,sans-serif;">
+    <div style="background:#0d4f8b;color:#fff;padding:12px;text-align:center;border-radius:6px;">
+      <h1 style="margin:0;font-size:22px;font-weight:bold;">Jagannath Gupta Institute of Medical Science and Hospital</h1>
+      <h2 style="margin:4px 0 0;font-size:16px;font-weight:bold;">Biomedical Equipment Installation/Upgrade/Handover Service</h2>
     </div>
     <p><b>Report No:</b> ${form.reportNo.value}</p>
     <p><b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}</p>
-    <h3>Equipment Information</h3>
+    <h3 style="color:#0d4f8b;">Equipment Information</h3>
     <p><b>Department:</b> ${form.department.value}</p>
     <p><b>Equipment:</b> ${form.equipment.value}</p>
     <p><b>Model:</b> ${form.model.value}</p>
     <p><b>Make:</b> ${form.make.value}</p>
     <p><b>Serial No.:</b> ${form.serialNumber.value}</p>
-    <h3>Accessories Details</h3>
-    <table border="1" width="100%"><tr><th>S/N</th><th>Description</th><th>Qty</th><th>SN</th></tr>${accRows}</table>
-    <div class="note">
-    The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition for use. Demonstration also given to end-user
+    <h3 style="color:#0d4f8b;">Accessories Details</h3>
+    <table border="1" width="100%" style="border-collapse:collapse;">
+      <tr style="background:#eef6ff;font-weight:bold;"><th>S/N</th><th>Description</th><th>Qty</th><th>SN</th></tr>
+      ${accRows}
+    </table>
+    <div style="margin-top:8px;font-style:italic;color:#333;">
+      The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition for use. Demonstration also given to end-user
     </div>
-    <h3>User Details</h3>
+    <h3 style="color:#0d4f8b;">User Details</h3>
     <p><b>Name:</b> ${form.userName.value} &nbsp; <b>Emp Code:</b> ${form.userCode.value}</p>
     ${userSignImg.src?`<img src="${userSignImg.src}" width="150">`:""}
-    <h3>BME Details</h3>
+    <h3 style="color:#0d4f8b;">BME Details</h3>
     <p><b>Name:</b> ${form.bmeName.value} &nbsp; <b>Code:</b> ${form.bmeCode.value}</p>
     ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="150">`:""}
   </div>`;
