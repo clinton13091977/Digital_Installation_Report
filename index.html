@@ -172,7 +172,7 @@ function clearSignature(){ sigPad.clear(); }
 function closeSignature(){ document.getElementById("sigModal").style.display="none"; }
 
 // Build preview
-function buildPreview(<img src="logo.jpg" alt="Company Logo"){
+function buildPreview(){
   const accRows=[...document.querySelectorAll("#accessTable tbody tr")].map(r=>{
     const t=[...r.querySelectorAll("input")].map(i=>i.value);
     return `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td></tr>`;
@@ -183,6 +183,7 @@ function buildPreview(<img src="logo.jpg" alt="Company Logo"){
   <div style="font-family:Arial,sans-serif;">
     <div style="background:#0d4f8b;color:#fff;padding:12px;text-align:center;border-radius:6px;">
       <h1 style="margin:0;font-size:22px;font-weight:bold;"
+	  <img src="logo.jpg" alt="Company Logo"
       <h2 style="margin:4px 0 0;font-size:16px;font-weight:bold;">Biomedical Equipment Installation/Upgrade/Handover Service Report</h2>
     </div>
     <p><b>Report No:</b> ${form.reportNo.value}</p>
@@ -231,5 +232,6 @@ async function downloadPDF(){
 </body>
 
 </html>
+
 
 
