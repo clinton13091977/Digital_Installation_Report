@@ -12,28 +12,28 @@
 
 <style>
 body { font-family: Arial,sans-serif; background:#f4f6fa; margin:0; padding:0;}
-.container { max-width:600px; margin:10px auto; background:#fff; padding:10px; border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-header { text-align:center; margin-bottom:10px; background:#0d4f8b; color:#fff; padding:8px; border-radius:6px;}
-header img { max-width:80px; display:block; margin:0 auto 4px;}
-header h2 { font-size:14px; margin:0; font-weight:bold;}
-.section { margin-top:8px; padding:8px; border:1px solid #dce3ef; border-radius:6px;}
-.section h3 { margin:0 0 4px 0; font-size:12px; color:#0d4f8b;}
-label { font-weight:bold; display:block; margin:4px 0 2px; font-size:12px;}
-input[type=text],input[type=date],input[type=time],input[type=number] { width:95%; padding:4px; border:1px solid #ccc; border-radius:4px; font-size:12px;}
-table { width:95%; border-collapse:collapse; margin-top:4px; font-size:10px;}
+.container { max-width:600px; margin:5px auto; background:#fff; padding:8px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+header { text-align:center; margin-bottom:8px; background:#0d4f8b; color:#fff; padding:6px; border-radius:6px;}
+header img { max-width:70px; display:block; margin:0 auto 4px;}
+header h2 { font-size:13px; margin:0; font-weight:bold;}
+.section { margin-top:6px; padding:6px; border:1px solid #dce3ef; border-radius:6px;}
+.section h3 { margin:0 0 3px 0; font-size:11px; color:#0d4f8b;}
+label { font-weight:bold; display:block; margin:3px 0 1px; font-size:11px;}
+input[type=text],input[type=date],input[type=time],input[type=number] { width:95%; padding:3px; border:1px solid #ccc; border-radius:4px; font-size:11px;}
+table { width:95%; border-collapse:collapse; margin-top:3px; font-size:9px;}
 th,td { border:1px solid #ccc; padding:2px; text-align:center;}
 th { background:#eef6ff;}
-.controls { margin-top:6px; display:flex; gap:4px; flex-wrap:wrap; justify-content:center;}
-button { padding:5px 8px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; font-size:11px;}
+.controls { margin-top:4px; display:flex; gap:4px; flex-wrap:wrap; justify-content:center;}
+button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; font-size:10px;}
 .btn-primary { background:#0d4f8b; color:#fff;}
 .btn-danger { background:#d62828; color:#fff;}
-.sig-preview { margin-top:2px; max-width:100px; border:1px solid #ccc; display:block; margin-left:auto; margin-right:auto;}
-.preview-container { margin-top:8px; padding:8px; border:2px dashed #0d4f8b; background:#fff; border-radius:6px;}
+.sig-preview { margin-top:2px; max-width:80px; border:1px solid #ccc; display:block; margin-left:auto; margin-right:auto;}
+.preview-container { margin-top:6px; padding:6px; border:2px dashed #0d4f8b; background:#fff; border-radius:6px;}
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;}
-.modal-inner { background:#fff; width:95%; height:85%; border-radius:8px; display:flex; flex-direction:column; padding:8px;}
+.modal-inner { background:#fff; width:95%; height:85%; border-radius:6px; display:flex; flex-direction:column; padding:6px;}
 .modal-inner canvas { flex:1; border:1px solid #999; }
-.modal-actions { margin-top:4px; text-align:center; font-size:12px;}
-.note { margin-top:4px; font-size:10px; font-style:italic; color:#333;}
+.modal-actions { margin-top:4px; text-align:center; font-size:11px;}
+.note { margin-top:4px; font-size:9px; font-style:italic; color:#333;}
 </style>
 </head>
 <body>
@@ -41,7 +41,7 @@ button { padding:5px 8px; border:none; border-radius:4px; cursor:pointer; font-w
 <div class="container">
   <header>
     <img src="logo.jpg" alt="Company Logo">
-    <h2>Biomedical Equipment Installation/Up-gradation/Handover-Service Report</h2>
+    <h2>Biomedical Equipment Installation/Upgrade/Handover-Service Report</h2>
   </header>
 
   <form id="form">
@@ -166,9 +166,9 @@ function buildPreview(){
     return `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td></tr>`;
   }).join("");
   return `
-  <div style="font-size:10px; line-height:1.2;">
-    <div style="text-align:center; background:#0d4f8b; color:#fff; padding:6px; border-radius:4px;">
-      <img src="logo.jpg" style="max-height:40px;">
+  <div style="font-size:9px; line-height:1.1;">
+    <div style="text-align:center; background:#0d4f8b; color:#fff; padding:4px; border-radius:4px;">
+      <img src="logo.jpg" style="max-height:35px;">
       <h3>Biomedical Equipment Installation/Upgrade/Handover Service Report</h3>
     </div>
     <p><b>Report No:</b> ${form.reportNo.value}</p>
@@ -184,10 +184,10 @@ function buildPreview(){
     <div class="note">The above Equipment / Item Installed by Biomedical Engineer has / have been handed over in good working condition. Demonstration given.</div>
     <h3>User Details</h3>
     <p><b>Name:</b> ${form.userName.value} &nbsp; <b>Emp Code:</b> ${form.userCode.value}</p>
-    ${userSignImg.src?`<img src="${userSignImg.src}" width="90">`:""}
+    ${userSignImg.src?`<img src="${userSignImg.src}" width="80">`:""}
     <h3>BME Details</h3>
     <p><b>Name:</b> ${form.bmeName.value} &nbsp; <b>Code:</b> ${form.bmeCode.value}</p>
-    ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="90">`:""}
+    ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="80">`:""}
   </div>`;
 }
 
@@ -196,25 +196,16 @@ function generatePreview(){ document.getElementById("preview").innerHTML=buildPr
 async function downloadPDF(){
   generatePreview();
   const preview=document.getElementById("preview");
-  
-  // Get canvas from preview
+
   const canvas=await html2canvas(preview,{scale:2});
   const img=canvas.toDataURL("image/jpeg",0.98);
-
-  // Create PDF
   const pdf=new jspdf.jsPDF("p","mm","a4");
   const pageWidth=pdf.internal.pageSize.getWidth();
   const pageHeight=pdf.internal.pageSize.getHeight();
-
-  // Scale image to fit exactly one page
   const imgProps=pdf.getImageProperties(img);
-  const pdfWidth=pageWidth;
-  const pdfHeight=(imgProps.height * pageWidth) / imgProps.width;
-
-  let scale=1;
-  if(pdfHeight>pageHeight) scale=pageHeight/pdfHeight;
-
-  pdf.addImage(img,"JPEG",0,0,pdfWidth*scale,pdfHeight*scale);
+  const pdfHeight=(imgProps.height*pageWidth)/imgProps.width;
+  const scaleFactor = pageHeight / pdfHeight;
+  pdf.addImage(img,"JPEG",0,0,pageWidth, pdfHeight*scaleFactor);
   pdf.save("Installation_Service_Report.pdf");
 }
 </script>
