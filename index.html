@@ -196,13 +196,25 @@ function generatePreview(){ document.getElementById("preview").innerHTML=buildPr
 async function downloadPDF(){
   generatePreview();
   const preview=document.getElementById("preview");
+  
+  // Get canvas from preview
   const canvas=await html2canvas(preview,{scale:2});
   const img=canvas.toDataURL("image/jpeg",0.98);
+
+  // Create PDF
   const pdf=new jspdf.jsPDF("p","mm","a4");
   const pageWidth=pdf.internal.pageSize.getWidth();
+  const pageHeight=pdf.internal.pageSize.getHeight();
+
+  // Scale image to fit exactly one page
   const imgProps=pdf.getImageProperties(img);
-  const pdfHeight=(imgProps.height*pageWidth)/imgProps.width;
-  pdf.addImage(img,"JPEG",0,0,pageWidth,pdfHeight);
+  const pdfWidth=pageWidth;
+  const pdfHeight=(imgProps.height * pageWidth) / imgProps.width;
+
+  let scale=1;
+  if(pdfHeight>pageHeight) scale=pageHeight/pdfHeight;
+
+  pdf.addImage(img,"JPEG",0,0,pdfWidth*scale,pdfHeight*scale);
   pdf.save("Installation_Service_Report.pdf");
 }
 </script>
