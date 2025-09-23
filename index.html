@@ -11,39 +11,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body { font-family: Arial, sans-serif; background:#f4f6fa; margin:0; }
-.container { max-width:960px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-header { background:#0d4f8b; color:#fff; padding:12px; border-radius:6px; text-align:center; }
-header img { max-height:60px; display:block; margin:0 auto 8px auto; }
-header h1 { margin:0; font-size:22px; font-weight:bold; }
-header h2 { margin:4px 0 0; font-size:16px; font-weight:bold; color:#fff; }
-.section { margin-top:16px; padding:12px; border:1px solid #dce3ef; border-radius:6px; }
-.section h3 { margin:0 0 8px 0; font-weight:bold; color:#0d4f8b; }
-label { font-weight:bold; display:block; margin-top:8px; }
-input[type=text],input[type=date],input[type=time],input[type=number] { width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-weight:normal; }
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th,td { border:1px solid #ccc; padding:6px; }
-th { background:#eef6ff; font-weight:bold; }
-.controls { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
-button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
-.btn-primary { background:#0d4f8b; color:#fff; }
-.btn-danger { background:#d62828; color:#fff; }
-.sig-preview { margin-top:6px; max-width:200px; border:1px solid #ccc; display:block; }
-.preview-container { margin-top:20px; padding:12px; border:2px dashed #0d4f8b; background:#fff; border-radius:6px; }
-
-/* Full screen signature modal */
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }
-.modal-inner { background:#fff; width:95%; height:85%; border-radius:8px; display:flex; flex-direction:column; padding:10px; }
+body { font-family: Arial,sans-serif; background:#f4f6fa; margin:0; padding:0;}
+.container { max-width:600px; margin:10px auto; background:#fff; padding:15px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+header { text-align:center; margin-bottom:15px;}
+header img { max-width:100px; display:block; margin:0 auto 5px;}
+header h1 { font-size:20px; margin:5px 0; }
+header h2 { font-size:14px; margin:0; color:#0d4f8b; font-weight:normal;}
+.section { margin-top:12px; padding:10px; border:1px solid #dce3ef; border-radius:6px;}
+.section h3 { margin:0 0 8px 0; font-size:14px; color:#0d4f8b;}
+label { font-weight:bold; display:block; margin:6px 0 2px;}
+input[type=text],input[type=date],input[type=time],input[type=number] { width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-weight:normal;}
+table { width:100%; border-collapse:collapse; margin-top:6px; font-size:12px;}
+th,td { border:1px solid #ccc; padding:4px; text-align:center;}
+th { background:#eef6ff;}
+.controls { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; justify-content:center;}
+button { padding:6px 10px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:12px;}
+.btn-primary { background:#0d4f8b; color:#fff;}
+.btn-danger { background:#d62828; color:#fff;}
+.sig-preview { margin-top:4px; max-width:120px; border:1px solid #ccc; display:block; margin-left:auto; margin-right:auto;}
+.preview-container { margin-top:10px; padding:10px; border:2px dashed #0d4f8b; background:#fff; border-radius:6px;}
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;}
+.modal-inner { background:#fff; width:95%; height:85%; border-radius:8px; display:flex; flex-direction:column; padding:10px;}
 .modal-inner canvas { flex:1; border:1px solid #999; }
-.modal-actions { margin-top:8px; text-align:center; }
-.note { margin-top:8px; font-style:italic; color:#333; }
+.modal-actions { margin-top:6px; text-align:center; font-size:12px;}
+.note { margin-top:6px; font-size:12px; font-style:italic; color:#333;}
 </style>
 </head>
 <body>
+
 <div class="container">
+  <!-- Logo Centered -->
   <header>
-    <img src="logo.jpg" alt="Company Logo" />
-    <h2>Biomedical Equipment Installation /Up-Gradation/Handover-Service Report</h2>
+    <img src="logo.jpg" alt="Company Logo">
+    <h2>"Biomedical Equipment Installation/ation/Handover-Service Report"</h2>
   </header>
 
   <form id="form">
@@ -142,7 +142,6 @@ button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-
 <script>
 document.getElementById('reportNo').value = "REP-" + Date.now();
 
-// Add accessory row
 function addAccessory(){
   const tbody=document.querySelector("#accessTable tbody");
   const tr=document.createElement("tr");
@@ -152,7 +151,6 @@ function addAccessory(){
   tbody.appendChild(tr);
 }
 
-// Signature pad
 let sigPad, signer;
 function openSignature(who){
   signer=who;
@@ -172,7 +170,6 @@ function acceptSignature(){
 function clearSignature(){ sigPad.clear(); }
 function closeSignature(){ document.getElementById("sigModal").style.display="none"; }
 
-// Build preview
 function buildPreview(){
   const accRows=[...document.querySelectorAll("#accessTable tbody tr")].map(r=>{
     const t=[...r.querySelectorAll("input")].map(i=>i.value);
@@ -180,9 +177,9 @@ function buildPreview(){
   }).join("");
   return `
   <div>
-    <div style="background:#0d4f8b;color:#fff;padding:10px;text-align:center;border-radius:6px;">
-      <img src="logo.jpg" alt="Company Logo" style="max-height:60px; display:block; margin:0 auto 8px auto;">
-      <h2>Biomedical Equipment Installation /Up-Gradation/Handover-Service Report</h2>
+    <div style="text-align:center; background:#0d4f8b; color:#fff; padding:10px; border-radius:6px;">
+      <img src="logo.jpg" style="max-height:50px;">
+      <h2>"Biomedical Equipment Installation/ation/Handover-Service Report"</h2>
     </div>
     <p><b>Report No:</b> ${form.reportNo.value}</p>
     <p><b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}</p>
@@ -194,15 +191,13 @@ function buildPreview(){
     <p><b>Serial No.:</b> ${form.serialNumber.value}</p>
     <h3>Accessories Details</h3>
     <table border="1" width="100%"><tr><th>S/N</th><th>Description</th><th>Qty</th><th>SN</th></tr>${accRows}</table>
-    <div class="note">
-    The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition for use. Demonstration also given to end-user
-    </div>
+    <div class="note">The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition. Demonstration given.</div>
     <h3>User Details</h3>
     <p><b>Name:</b> ${form.userName.value} &nbsp; <b>Emp Code:</b> ${form.userCode.value}</p>
-    ${userSignImg.src?`<img src="${userSignImg.src}" width="150">`:""}
+    ${userSignImg.src?`<img src="${userSignImg.src}" width="120">`:""}
     <h3>BME Details</h3>
     <p><b>Name:</b> ${form.bmeName.value} &nbsp; <b>Code:</b> ${form.bmeCode.value}</p>
-    ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="150">`:""}
+    ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="120">`:""}
   </div>`;
 }
 
@@ -210,7 +205,6 @@ function generatePreview(){
   document.getElementById("preview").innerHTML=buildPreview();
 }
 
-// PDF generation
 async function downloadPDF(){
   generatePreview();
   const preview=document.getElementById("preview");
@@ -224,5 +218,6 @@ async function downloadPDF(){
   pdf.save("Installation_Service_Report.pdf");
 }
 </script>
+
 </body>
 </html>
