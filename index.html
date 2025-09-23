@@ -13,8 +13,8 @@
 <style>
 body { font-family: Arial, sans-serif; background:#f4f6fa; margin:0; }
 .container { max-width:960px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-header { background:#0d4f8b; color:#fff; padding:12px; border-radius:6px; text-align:center; display:flex; align-items:center; justify-content:center; gap:10px; }
-header img { max-height:50px; }
+header { background:#0d4f8b; color:#fff; padding:12px; border-radius:6px; text-align:center; }
+header img { max-height:60px; display:block; margin:0 auto 8px auto; }
 header h1 { margin:0; font-size:22px; font-weight:bold; }
 header h2 { margin:4px 0 0; font-size:16px; font-weight:bold; color:#fff; }
 .section { margin-top:16px; padding:12px; border:1px solid #dce3ef; border-radius:6px; }
@@ -43,9 +43,7 @@ button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-
 <div class="container">
   <header>
     <img src="logo.jpg" alt="Company Logo" />
-    <div>
-      <h2>Biomedical Equipment Installation/Upgrade/Handover Service</h2>
-    </div>
+    <h2>Biomedical Equipment Installation /Up-Gradation/Handover-Service Report</h2>
   </header>
 
   <form id="form">
@@ -85,7 +83,7 @@ button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-
         <tbody></tbody>
       </table>
       <div class="note">
-        The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition for use. Demonstration also given to end-user
+        "The above Equipment / Item Installed by Biomedical Engineer has / have been handed over to the department in good working condition for use. Demonstration also given to end-user"
       </div>
       <div class="controls">
         <button type="button" class="btn-primary" onclick="addAccessory()">+ Add Accessory</button>
@@ -182,11 +180,9 @@ function buildPreview(){
   }).join("");
   return `
   <div>
-    <div style="background:#0d4f8b;color:#fff;padding:10px;text-align:center;border-radius:6px; display:flex; align-items:center; justify-content:center; gap:10px;">
-      <img src="logo.jpg" alt="Company Logo" style="max-height:50px;">
-      <div>
-        <h2>Biomedical Equipment Installation/Upgrade/Handover Service</h2>
-      </div>
+    <div style="background:#0d4f8b;color:#fff;padding:10px;text-align:center;border-radius:6px;">
+      <img src="logo.jpg" alt="Company Logo" style="max-height:60px; display:block; margin:0 auto 8px auto;">
+      <h2>Biomedical Equipment Installation /Up-Gradation/Handover-Service Report</h2>
     </div>
     <p><b>Report No:</b> ${form.reportNo.value}</p>
     <p><b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}</p>
@@ -229,5 +225,4 @@ async function downloadPDF(){
 }
 </script>
 </body>
-
 </html>
