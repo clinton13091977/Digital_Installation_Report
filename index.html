@@ -12,7 +12,7 @@
 
 <style>
 body { font-family: Arial,sans-serif; background:#f4f6fa; margin:0; padding:0;}
-.container { max-width:600px; margin:5px auto; background:#fff; padding:8px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.container { max-width:620px; margin:5px auto; background:#fff; padding:8px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
 header { text-align:center; margin-bottom:8px; background:#0d4f8b; color:#fff; padding:6px; border-radius:6px;}
 header img { max-width:70px; display:block; margin:0 auto 4px;}
 header h2 { font-size:13px; margin:0; font-weight:bold;}
@@ -34,6 +34,14 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 .modal-inner canvas { flex:1; border:1px solid #999; }
 .modal-actions { margin-top:4px; text-align:center; font-size:11px;}
 .note { margin-top:4px; font-size:9px; font-style:italic; color:#333;}
+.equip-row { display:flex; gap:10px; flex-wrap:wrap;}
+.equip-left { flex:1 1 60%; }
+.equip-image-box { flex:1 1 35%; min-width:150px; border:1px dashed #0d4f8b; border-radius:6px; text-align:center; background:#f9fcff; padding:6px; cursor:pointer;}
+.equip-image-box img { max-width:100%; max-height:120px; border-radius:4px;}
+.equip-placeholder { font-size:10px; color:#0d4f8b; margin-top:4px;}
+.equip-image-actions { display:none; margin-top:4px; gap:4px; justify-content:center;}
+.small-btn { font-size:9px; padding:2px 4px; }
+@media(max-width:600px){.equip-row{flex-direction:column;}}
 </style>
 </head>
 <body>
@@ -41,7 +49,7 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 <div class="container">
   <header>
     <img src="logo.jpg" alt="Company Logo">
-    <h2>Biomedical Equipment Installation/Upgrade/Handover-Service Report</h2>
+    <h2>Biomedical Equipment Installation / Upgrade / Handover - Service Report</h2>
   </header>
 
   <form id="form">
@@ -57,24 +65,34 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 
     <div class="section">
       <h3>Equipment Information</h3>
-      <label>Department</label>
-      <input id="department" type="text">
-      <label>Equipment</label>
-      <input id="equipment" type="text">
-      <label>Model</label>
-      <input id="model" type="text">
-      <label>Make</label>
-      <input id="make" type="text">
-      <label>Serial Number</label>
-      <input id="serialNumber" type="text">
+      <div class="equip-row">
+        <div class="equip-left">
+          <label>Department</label><input id="department" type="text">
+          <label>Equipment</label><input id="equipment" type="text">
+          <label>Model</label><input id="model" type="text">
+          <label>Make</label><input id="make" type="text">
+          <label>Serial Number</label><input id="serialNumber" type="text">
+        </div>
+
+        <!-- Camera-enabled Image Box -->
+        <div id="equipImageBox" class="equip-image-box" onclick="triggerEquipImageClick(event)">
+          <input id="equipImageInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event)">
+          <img id="equipImagePreview" src="" alt="Equipment Image" style="display:none;">
+          <div id="equipImagePlaceholder" class="equip-placeholder">
+            <b>Click to Capture Image</b><br>(Camera/Gallery)
+          </div>
+          <div id="equipImageActions" class="equip-image-actions">
+            <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event)">Change</button>
+            <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event)">Clear</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
       <h3>Accessories Details</h3>
       <table id="accessTable">
-        <thead>
-          <tr><th>S/N</th><th>Description</th><th>Qty</th><th>Serial No.</th><th>Action</th></tr>
-        </thead>
+        <thead><tr><th>S/N</th><th>Description</th><th>Qty</th><th>Serial No.</th><th>Action</th></tr></thead>
         <tbody></tbody>
       </table>
       <div class="note">
@@ -87,25 +105,17 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 
     <div class="section">
       <h3>User Details</h3>
-      <label>User Name</label>
-      <input id="userName" type="text">
-      <label>Emp. Code</label>
-      <input id="userCode" type="text">
-      <div class="controls">
-        <button type="button" class="btn-primary" onclick="openSignature('user')">Sign (User)</button>
-      </div>
+      <label>User Name</label><input id="userName" type="text">
+      <label>Emp. Code</label><input id="userCode" type="text">
+      <div class="controls"><button type="button" class="btn-primary" onclick="openSignature('user')">Sign (User)</button></div>
       <img id="userSignImg" class="sig-preview">
     </div>
 
     <div class="section">
       <h3>BME Details</h3>
-      <label>BME Name</label>
-      <input id="bmeName" type="text">
-      <label>BME Code</label>
-      <input id="bmeCode" type="text">
-      <div class="controls">
-        <button type="button" class="btn-primary" onclick="openSignature('bme')">Sign (BME)</button>
-      </div>
+      <label>BME Name</label><input id="bmeName" type="text">
+      <label>BME Code</label><input id="bmeCode" type="text">
+      <div class="controls"><button type="button" class="btn-primary" onclick="openSignature('bme')">Sign (BME)</button></div>
       <img id="bmeSignImg" class="sig-preview">
     </div>
 
@@ -118,6 +128,7 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
   <div id="preview" class="preview-container"></div>
 </div>
 
+<!-- Signature Modal -->
 <div id="sigModal" class="modal">
   <div class="modal-inner">
     <canvas id="sigCanvas"></canvas>
@@ -130,7 +141,7 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 </div>
 
 <script>
-document.getElementById('reportNo').value = "REP-" + Date.now();
+document.getElementById('reportNo').value="REP-"+Date.now();
 
 function addAccessory(){
   const tbody=document.querySelector("#accessTable tbody");
@@ -141,6 +152,7 @@ function addAccessory(){
   tbody.appendChild(tr);
 }
 
+// Signature handling
 let sigPad, signer;
 function openSignature(who){
   signer=who;
@@ -157,46 +169,83 @@ function acceptSignature(){
   else document.getElementById("bmeSignImg").src=data;
   closeSignature();
 }
-function clearSignature(){ sigPad.clear(); }
-function closeSignature(){ document.getElementById("sigModal").style.display="none"; }
+function clearSignature(){sigPad.clear();}
+function closeSignature(){document.getElementById("sigModal").style.display="none";}
 
+// Equipment image handlers
+function triggerEquipImageClick(e){
+  if(e.target.tagName==="BUTTON") return;
+  document.getElementById("equipImageInput").click();
+}
+function handleEquipImageChange(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    document.getElementById("equipImagePreview").src=ev.target.result;
+    document.getElementById("equipImagePreview").style.display="block";
+    document.getElementById("equipImagePlaceholder").style.display="none";
+    document.getElementById("equipImageActions").style.display="flex";
+  };
+  reader.readAsDataURL(file);
+}
+function clearEquipImage(event){
+  event.stopPropagation();
+  document.getElementById("equipImagePreview").style.display="none";
+  document.getElementById("equipImagePlaceholder").style.display="block";
+  document.getElementById("equipImageActions").style.display="none";
+  document.getElementById("equipImagePreview").src="";
+  document.getElementById("equipImageInput").value="";
+}
+
+// Preview and PDF
 function buildPreview(){
   const accRows=[...document.querySelectorAll("#accessTable tbody tr")].map(r=>{
     const t=[...r.querySelectorAll("input")].map(i=>i.value);
     return `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td></tr>`;
   }).join("");
+
   return `
-  <div style="font-size:9px; line-height:1.1;">
-    <div style="text-align:center; background:#0d4f8b; color:#fff; padding:4px; border-radius:4px;">
-      <img src="logo.jpg" style="max-height:35px;">
-      <h3>Biomedical Equipment Installation/Upgrade/Handover Service Report</h3>
+  <div style="font-size:9px;">
+    <header style="text-align:center;background:#0d4f8b;color:#fff;padding:4px;border-radius:4px;">
+      <img src="logo.jpg" style="max-height:35px;"><h3>Biomedical Equipment Installation / Upgrade / Handover - Service Report</h3>
+    </header>
+    <div style="border:1px solid #ccc; margin-top:4px; padding:4px;">
+      <b>Report No:</b> ${form.reportNo.value}<br>
+      <b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}
     </div>
-    <p><b>Report No:</b> ${form.reportNo.value}</p>
-    <p><b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}</p>
-    <h3>Equipment Information</h3>
-    <p><b>Department:</b> ${form.department.value}</p>
-    <p><b>Equipment:</b> ${form.equipment.value}</p>
-    <p><b>Model:</b> ${form.model.value}</p>
-    <p><b>Make:</b> ${form.make.value}</p>
-    <p><b>Serial No.:</b> ${form.serialNumber.value}</p>
-    <h3>Accessories Details</h3>
-    <table border="1" width="100%"><tr><th>S/N</th><th>Description</th><th>Qty</th><th>SN</th></tr>${accRows}</table>
+    <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+      <div style="flex:1 1 60%;">
+        <h4 style="margin:2px 0;color:#0d4f8b;">Equipment Information</h4>
+        <b>Department:</b> ${form.department.value}<br>
+        <b>Equipment:</b> ${form.equipment.value}<br>
+        <b>Model:</b> ${form.model.value}<br>
+        <b>Make:</b> ${form.make.value}<br>
+        <b>Serial No.:</b> ${form.serialNumber.value}
+      </div>
+      <div style="flex:1 1 35%;text-align:center;border:1px dashed #0d4f8b;border-radius:6px;padding:4px;">
+        ${document.getElementById("equipImagePreview").src?`<img src="${document.getElementById("equipImagePreview").src}" style="max-width:100%;max-height:100px;">`:`<span style="font-size:10px;color:#777;">No Image</span>`}
+      </div>
+    </div>
+    <h4 style="margin-top:4px;color:#0d4f8b;">Accessories Details</h4>
+    <table border="1" width="100%" style="border-collapse:collapse;font-size:9px;">
+      <tr><th>S/N</th><th>Description</th><th>Qty</th><th>Serial No.</th></tr>${accRows}
+    </table>
     <div class="note">The above Equipment / Item Installed by Biomedical Engineer has / have been handed over in good working condition. Demonstration given.</div>
-    <h3>User Details</h3>
-    <p><b>Name:</b> ${form.userName.value} &nbsp; <b>Emp Code:</b> ${form.userCode.value}</p>
+    <h4 style="color:#0d4f8b;">User Details</h4>
+    <b>Name:</b> ${form.userName.value} &nbsp; <b>Emp Code:</b> ${form.userCode.value}<br>
     ${userSignImg.src?`<img src="${userSignImg.src}" width="80">`:""}
-    <h3>BME Details</h3>
-    <p><b>Name:</b> ${form.bmeName.value} &nbsp; <b>Code:</b> ${form.bmeCode.value}</p>
+    <h4 style="color:#0d4f8b;">BME Details</h4>
+    <b>Name:</b> ${form.bmeName.value} &nbsp; <b>Code:</b> ${form.bmeCode.value}<br>
     ${bmeSignImg.src?`<img src="${bmeSignImg.src}" width="80">`:""}
   </div>`;
 }
 
-function generatePreview(){ document.getElementById("preview").innerHTML=buildPreview(); }
+function generatePreview(){document.getElementById("preview").innerHTML=buildPreview();}
 
 async function downloadPDF(){
   generatePreview();
   const preview=document.getElementById("preview");
-
   const canvas=await html2canvas(preview,{scale:2});
   const img=canvas.toDataURL("image/jpeg",0.98);
   const pdf=new jspdf.jsPDF("p","mm","a4");
@@ -204,8 +253,8 @@ async function downloadPDF(){
   const pageHeight=pdf.internal.pageSize.getHeight();
   const imgProps=pdf.getImageProperties(img);
   const pdfHeight=(imgProps.height*pageWidth)/imgProps.width;
-  const scaleFactor = pageHeight / pdfHeight;
-  pdf.addImage(img,"JPEG",0,0,pageWidth, pdfHeight*scaleFactor);
+  const scaleFactor=pageHeight/pdfHeight;
+  pdf.addImage(img,"JPEG",0,0,pageWidth,pdfHeight*scaleFactor);
   pdf.save("Installation_Service_Report.pdf");
 }
 </script>
