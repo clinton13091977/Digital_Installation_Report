@@ -34,14 +34,11 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 .modal-inner canvas { flex:1; border:1px solid #999; }
 .modal-actions { margin-top:4px; text-align:center; font-size:11px;}
 .note { margin-top:4px; font-size:9px; font-style:italic; color:#333;}
-.equip-row { display:flex; gap:10px; flex-wrap:wrap;}
-.equip-left { flex:1 1 60%; }
-.equip-image-box { flex:1 1 30%; min-width:100px; border:1px dashed #0d4f8b; border-radius:6px; text-align:center; background:#f9fcff; padding:6px; cursor:pointer;}
-.equip-image-box img { max-width:100%; max-height:120px; border-radius:4px;}
-.equip-placeholder { font-size:10px; color:#0d4f8b; margin-top:4px;}
-.equip-image-actions { display:none; margin-top:4px; gap:4px; justify-content:center;}
-.small-btn { font-size:9px; padding:2px 4px; }
-@media(max-width:600px){.equip-row{flex-direction:column;}}
+.image-gallery { display:flex; flex-wrap:nowrap; overflow-x:auto; gap:6px; margin-top:6px; }
+.image-box { position:relative; border:1px dashed #0d4f8b; border-radius:6px; overflow:hidden; width:100px; height:100px; background:#f9fcff; flex:0 0 auto; }
+.image-box img { width:100%; height:100%; object-fit:cover; }
+.image-box button { position:absolute; top:2px; right:2px; background:#d62828; color:#fff; border:none; border-radius:50%; width:16px; height:16px; font-size:10px; line-height:12px; cursor:pointer; }
+@media(max-width:600px){.image-box{width:80px;height:80px;}}
 </style>
 </head>
 <body>
@@ -55,61 +52,24 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
   <form id="form">
     <div class="section">
       <h3>Report Information</h3>
-      <label>Report No.</label>
-      <input id="reportNo" type="text" readonly>
-      <label>Date</label>
-      <input id="date" type="date">
-      <label>Time</label>
-      <input id="time" type="time">
+      <label>Report No.</label><input id="reportNo" type="text" readonly>
+      <label>Date</label><input id="date" type="date">
+      <label>Time</label><input id="time" type="time">
     </div>
 
     <div class="section">
       <h3>Equipment Information</h3>
-      <div class="equip-row">
-        <div class="equip-left">
-          <label>Department</label><input id="department" type="text">
-          <label>Equipment</label><input id="equipment" type="text">
-          <label>Model</label><input id="model" type="text">
-          <label>Make</label><input id="make" type="text">
-          <label>Serial Number</label><input id="serialNumber" type="text">
-        </div>
+      <label>Department</label><input id="department" type="text">
+      <label>Equipment</label><input id="equipment" type="text">
+      <label>Model</label><input id="model" type="text">
+      <label>Make</label><input id="make" type="text">
+      <label>Serial Number</label><input id="serialNumber" type="text">
 
-        <!-- Three Image Upload Boxes Side-by-Side -->
-        <div class="equip-row" style="flex:1 1 40%; justify-content:space-between;">
-          <!-- First Image -->
-          <div id="equipImageBox1" class="equip-image-box" onclick="triggerEquipImageClick(event,1)">
-            <input id="equipImageInput1" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,1)">
-            <img id="equipImagePreview1" src="" alt="Image 1" style="display:none;">
-            <div id="equipImagePlaceholder1" class="equip-placeholder"><b>Image 1</b></div>
-            <div id="equipImageActions1" class="equip-image-actions">
-              <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,1)">Change</button>
-              <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,1)">Clear</button>
-            </div>
-          </div>
-
-          <!-- Second Image -->
-          <div id="equipImageBox2" class="equip-image-box" onclick="triggerEquipImageClick(event,2)">
-            <input id="equipImageInput2" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,2)">
-            <img id="equipImagePreview2" src="" alt="Image 2" style="display:none;">
-            <div id="equipImagePlaceholder2" class="equip-placeholder"><b>Image 2</b></div>
-            <div id="equipImageActions2" class="equip-image-actions">
-              <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,2)">Change</button>
-              <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,2)">Clear</button>
-            </div>
-          </div>
-
-          <!-- Third Image -->
-          <div id="equipImageBox3" class="equip-image-box" onclick="triggerEquipImageClick(event,3)">
-            <input id="equipImageInput3" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,3)">
-            <img id="equipImagePreview3" src="" alt="Image 3" style="display:none;">
-            <div id="equipImagePlaceholder3" class="equip-placeholder"><b>Image 3</b></div>
-            <div id="equipImageActions3" class="equip-image-actions">
-              <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,3)">Change</button>
-              <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,3)">Clear</button>
-            </div>
-          </div>
-        </div>
+      <div class="controls">
+        <button type="button" class="btn-primary" onclick="document.getElementById('equipImageInput').click()">+ Add Image</button>
+        <input id="equipImageInput" type="file" accept="image/*" multiple style="display:none" onchange="handleEquipImageChange(event)">
       </div>
+      <div id="imageGallery" class="image-gallery"></div>
     </div>
 
     <div class="section">
@@ -166,6 +126,7 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 <script>
 document.getElementById('reportNo').value="REP-"+Date.now();
 
+// Add accessories
 function addAccessory(){
   const tbody=document.querySelector("#accessTable tbody");
   const tr=document.createElement("tr");
@@ -195,42 +156,33 @@ function acceptSignature(){
 function clearSignature(){sigPad.clear();}
 function closeSignature(){document.getElementById("sigModal").style.display="none";}
 
-// Equipment image handlers (for 3 images)
-function triggerEquipImageClick(e,id){
-  if(e.target.tagName==="BUTTON") return;
-  document.getElementById(`equipImageInput${id}`).click();
-}
-function handleEquipImageChange(event,id){
-  const file=event.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(ev){
-    document.getElementById(`equipImagePreview${id}`).src=ev.target.result;
-    document.getElementById(`equipImagePreview${id}`).style.display="block";
-    document.getElementById(`equipImagePlaceholder${id}`).style.display="none";
-    document.getElementById(`equipImageActions${id}`).style.display="flex";
-  };
-  reader.readAsDataURL(file);
-}
-function clearEquipImage(event,id){
-  event.stopPropagation();
-  document.getElementById(`equipImagePreview${id}`).style.display="none";
-  document.getElementById(`equipImagePlaceholder${id}`).style.display="block";
-  document.getElementById(`equipImageActions${id}`).style.display="none";
-  document.getElementById(`equipImagePreview${id}`).src="";
-  document.getElementById(`equipImageInput${id}`).value="";
+// Dynamic multiple image upload (side-by-side)
+const imageGallery=document.getElementById("imageGallery");
+function handleEquipImageChange(event){
+  const files=Array.from(event.target.files);
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      const box=document.createElement("div");
+      box.className="image-box";
+      box.innerHTML=`<img src="${ev.target.result}"><button onclick="this.parentElement.remove()">×</button>`;
+      imageGallery.appendChild(box);
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value="";
 }
 
-// Preview and PDF
+// Build preview
 function buildPreview(){
   const accRows=[...document.querySelectorAll("#accessTable tbody tr")].map(r=>{
     const t=[...r.querySelectorAll("input")].map(i=>i.value);
     return `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td></tr>`;
   }).join("");
 
-  const img1=document.getElementById("equipImagePreview1").src;
-  const img2=document.getElementById("equipImagePreview2").src;
-  const img3=document.getElementById("equipImagePreview3").src;
+  const imgTags=[...imageGallery.querySelectorAll("img")]
+    .map(i=>`<img src="${i.src}" style="width:90px;height:90px;object-fit:cover;margin-right:5px;">`)
+    .join("");
 
   return `
   <div style="font-size:9px;">
@@ -241,20 +193,14 @@ function buildPreview(){
       <b>Report No:</b> ${form.reportNo.value}<br>
       <b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}
     </div>
-    <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-      <div style="flex:1 1 55%;">
-        <h4 style="margin:2px 0;color:#0d4f8b;">Equipment Information</h4>
-        <b>Department:</b> ${form.department.value}<br>
-        <b>Equipment:</b> ${form.equipment.value}<br>
-        <b>Model:</b> ${form.model.value}<br>
-        <b>Make:</b> ${form.make.value}<br>
-        <b>Serial No.:</b> ${form.serialNumber.value}
-      </div>
-      <div style="flex:1 1 40%;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
-        ${img1?`<img src="${img1}" style="max-width:31%;max-height:90px;">`:""}
-        ${img2?`<img src="${img2}" style="max-width:31%;max-height:90px;">`:""}
-        ${img3?`<img src="${img3}" style="max-width:31%;max-height:90px;">`:""}
-      </div>
+    <div style="margin-top:6px;">
+      <h4 style="margin:2px 0;color:#0d4f8b;">Equipment Information</h4>
+      <b>Department:</b> ${form.department.value}<br>
+      <b>Equipment:</b> ${form.equipment.value}<br>
+      <b>Model:</b> ${form.model.value}<br>
+      <b>Make:</b> ${form.make.value}<br>
+      <b>Serial No.:</b> ${form.serialNumber.value}<br>
+      <div style="display:flex;justify-content:flex-start;align-items:center;gap:4px;flex-wrap:nowrap;overflow-x:auto;margin-top:5px;">${imgTags}</div>
     </div>
     <h4 style="margin-top:4px;color:#0d4f8b;">Accessories Details</h4>
     <table border="1" width="100%" style="border-collapse:collapse;font-size:9px;">
