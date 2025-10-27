@@ -36,7 +36,7 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
 .note { margin-top:4px; font-size:9px; font-style:italic; color:#333;}
 .equip-row { display:flex; gap:10px; flex-wrap:wrap;}
 .equip-left { flex:1 1 60%; }
-.equip-image-box { flex:1 1 48%; min-width:130px; border:1px dashed #0d4f8b; border-radius:6px; text-align:center; background:#f9fcff; padding:6px; cursor:pointer;}
+.equip-image-box { flex:1 1 30%; min-width:100px; border:1px dashed #0d4f8b; border-radius:6px; text-align:center; background:#f9fcff; padding:6px; cursor:pointer;}
 .equip-image-box img { max-width:100%; max-height:120px; border-radius:4px;}
 .equip-placeholder { font-size:10px; color:#0d4f8b; margin-top:4px;}
 .equip-image-actions { display:none; margin-top:4px; gap:4px; justify-content:center;}
@@ -74,13 +74,13 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
           <label>Serial Number</label><input id="serialNumber" type="text">
         </div>
 
-        <!-- Two Image Upload Boxes Side-by-Side -->
-        <div class="equip-row" style="flex:1 1 35%; justify-content:space-between;">
+        <!-- Three Image Upload Boxes Side-by-Side -->
+        <div class="equip-row" style="flex:1 1 40%; justify-content:space-between;">
           <!-- First Image -->
           <div id="equipImageBox1" class="equip-image-box" onclick="triggerEquipImageClick(event,1)">
             <input id="equipImageInput1" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,1)">
-            <img id="equipImagePreview1" src="" alt="Equipment Image 1" style="display:none;">
-            <div id="equipImagePlaceholder1" class="equip-placeholder"><b>Click to Capture Image 1</b><br>(Camera/Gallery)</div>
+            <img id="equipImagePreview1" src="" alt="Image 1" style="display:none;">
+            <div id="equipImagePlaceholder1" class="equip-placeholder"><b>Image 1</b></div>
             <div id="equipImageActions1" class="equip-image-actions">
               <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,1)">Change</button>
               <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,1)">Clear</button>
@@ -90,11 +90,22 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
           <!-- Second Image -->
           <div id="equipImageBox2" class="equip-image-box" onclick="triggerEquipImageClick(event,2)">
             <input id="equipImageInput2" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,2)">
-            <img id="equipImagePreview2" src="" alt="Equipment Image 2" style="display:none;">
-            <div id="equipImagePlaceholder2" class="equip-placeholder"><b>Click to Capture Image 2</b><br>(Camera/Gallery)</div>
+            <img id="equipImagePreview2" src="" alt="Image 2" style="display:none;">
+            <div id="equipImagePlaceholder2" class="equip-placeholder"><b>Image 2</b></div>
             <div id="equipImageActions2" class="equip-image-actions">
               <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,2)">Change</button>
               <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,2)">Clear</button>
+            </div>
+          </div>
+
+          <!-- Third Image -->
+          <div id="equipImageBox3" class="equip-image-box" onclick="triggerEquipImageClick(event,3)">
+            <input id="equipImageInput3" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleEquipImageChange(event,3)">
+            <img id="equipImagePreview3" src="" alt="Image 3" style="display:none;">
+            <div id="equipImagePlaceholder3" class="equip-placeholder"><b>Image 3</b></div>
+            <div id="equipImageActions3" class="equip-image-actions">
+              <button type="button" class="btn-primary small-btn" onclick="triggerEquipImageClick(event,3)">Change</button>
+              <button type="button" class="btn-danger small-btn" onclick="clearEquipImage(event,3)">Clear</button>
             </div>
           </div>
         </div>
@@ -184,7 +195,7 @@ function acceptSignature(){
 function clearSignature(){sigPad.clear();}
 function closeSignature(){document.getElementById("sigModal").style.display="none";}
 
-// Equipment image handlers (for 2 images)
+// Equipment image handlers (for 3 images)
 function triggerEquipImageClick(e,id){
   if(e.target.tagName==="BUTTON") return;
   document.getElementById(`equipImageInput${id}`).click();
@@ -219,6 +230,7 @@ function buildPreview(){
 
   const img1=document.getElementById("equipImagePreview1").src;
   const img2=document.getElementById("equipImagePreview2").src;
+  const img3=document.getElementById("equipImagePreview3").src;
 
   return `
   <div style="font-size:9px;">
@@ -230,7 +242,7 @@ function buildPreview(){
       <b>Date:</b> ${form.date.value} &nbsp; <b>Time:</b> ${form.time.value}
     </div>
     <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-      <div style="flex:1 1 60%;">
+      <div style="flex:1 1 55%;">
         <h4 style="margin:2px 0;color:#0d4f8b;">Equipment Information</h4>
         <b>Department:</b> ${form.department.value}<br>
         <b>Equipment:</b> ${form.equipment.value}<br>
@@ -238,9 +250,10 @@ function buildPreview(){
         <b>Make:</b> ${form.make.value}<br>
         <b>Serial No.:</b> ${form.serialNumber.value}
       </div>
-      <div style="flex:1 1 35%;display:flex;gap:6px;justify-content:center;">
-        ${img1?`<img src="${img1}" style="max-width:48%;max-height:100px;">`:`<span style="font-size:10px;color:#777;">No Image 1</span>`}
-        ${img2?`<img src="${img2}" style="max-width:48%;max-height:100px;">`:`<span style="font-size:10px;color:#777;">No Image 2</span>`}
+      <div style="flex:1 1 40%;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+        ${img1?`<img src="${img1}" style="max-width:31%;max-height:90px;">`:""}
+        ${img2?`<img src="${img2}" style="max-width:31%;max-height:90px;">`:""}
+        ${img3?`<img src="${img3}" style="max-width:31%;max-height:90px;">`:""}
       </div>
     </div>
     <h4 style="margin-top:4px;color:#0d4f8b;">Accessories Details</h4>
