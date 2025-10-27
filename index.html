@@ -66,9 +66,14 @@ button { padding:4px 6px; border:none; border-radius:4px; cursor:pointer; font-w
       <label>Serial Number</label><input id="serialNumber" type="text">
 
       <div class="controls">
-        <button type="button" class="btn-primary" onclick="document.getElementById('equipImageInput').click()">+ Add Image</button>
-        <input id="equipImageInput" type="file" accept="image/*" multiple style="display:none" onchange="handleEquipImageChange(event)">
+        <button type="button" class="btn-primary" onclick="document.getElementById('cameraInput').click()">📷 Capture from Camera</button>
+        <button type="button" class="btn-primary" onclick="document.getElementById('galleryInput').click()">🖼 Upload from Gallery</button>
+
+        <!-- hidden inputs for camera and gallery -->
+        <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple style="display:none" onchange="handleEquipImageChange(event)">
+        <input id="galleryInput" type="file" accept="image/*" multiple style="display:none" onchange="handleEquipImageChange(event)">
       </div>
+
       <div id="imageGallery" class="image-gallery"></div>
     </div>
 
@@ -156,7 +161,7 @@ function acceptSignature(){
 function clearSignature(){sigPad.clear();}
 function closeSignature(){document.getElementById("sigModal").style.display="none";}
 
-// Dynamic multiple image upload (side-by-side)
+// Dynamic multiple image upload (camera/gallery)
 const imageGallery=document.getElementById("imageGallery");
 function handleEquipImageChange(event){
   const files=Array.from(event.target.files);
